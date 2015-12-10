@@ -1,0 +1,12 @@
+<html>
+  <head>
+    <link href="test_1.css" rel="stylesheet" type="text/css"/>
+  </head>
+  <body>
+  <div class=centralBlockFloat>
+    <div class=centralBlock>
+%ICONS
+    </div>
+  </div>
+  </body>
+</html>

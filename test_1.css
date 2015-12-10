@@ -1,0 +1,25 @@
+div.centralBlockFloat {
+    height: 100%;
+    position: relative;
+}
+div.centralBlock {
+/*    background: coral; */
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%) 
+}
+div.colBlock {
+/*    border: 1px solid black; */
+    margin: 0;
+/*    width: 24%; */
+}
+img.thumbBlock {
+    margin: 0;
+    position: relative; 
+    border: 1px solid black;
+    width: 75px;
+    height: 75px;
+}
