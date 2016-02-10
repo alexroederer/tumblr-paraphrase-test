@@ -19,7 +19,7 @@ class TumblrBlogManager:
         # attempt to get posts. Return: dict
         post = client.posts(blogName, limit=1)
         # TODO: Make more detailed error handling; meta tag provides error details. 
-        if 'meta' in post: 
+        if 'meta' in post and post['meta']['status'] == 404: 
             # Raise exception
             raise Exception('Blog not found')
         else:
@@ -61,16 +61,24 @@ class TumblrBlogManager:
         elif post['type'] == 'audio':
             return post['album_art'].encode(enc), post['post_url'].encode(enc)
         elif post['type'] == 'text':
-            return '', ''
+            return '', post['post_url'].encode(enc) 
         elif post['type'] == 'quote':
-            return '', ''
+            return '', post['post_url'].encode(enc)
         elif post['type'] == 'link':
-            return '', ''
+            if 'photos' in post:
+                for thumb in post['photos'][0]['alt_sizes']:
+                    if thumb['width'] == 75:
+                        return thumb['url'].encode(enc), post['post_url'].encode(enc)
+            return '', post['post_url'].encode(enc) 
         elif post['type'] == 'answer':
-            return '', ''
+            return '', post['post_url'].encode(enc)
         elif post['type'] == 'video':
-            return '', ''
+            if 'photos' in post:
+                for thumb in post['photos'][0]['alt_sizes']:
+                    if thumb['width'] == 75:
+                        return thumb['url'].encode(enc), post['post_url'].encode(enc)
+            return '', post['post_url'].encode(enc) 
         elif post['type'] == 'chat':
-            return '', ''
+            return '', post['post_url'].encode(enc) 
         else:
             return '', ''

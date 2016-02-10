@@ -30,4 +30,5 @@ def blog(request, blog_name):
         }
     except Exception:
         blog_name = None 
+        context = {}
     return render(request, 'archivefind/blog.html', context)

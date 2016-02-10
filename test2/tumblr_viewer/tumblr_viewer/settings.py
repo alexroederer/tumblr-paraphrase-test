@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'polls.apps.PollsConfig',
+#    'polls.apps.PollsConfig',
     'archivefind.apps.ArchivefindConfig',
     'django.contrib.admin',
     'django.contrib.auth',
