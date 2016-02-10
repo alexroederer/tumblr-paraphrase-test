@@ -1,0 +1,24 @@
+{% load staticfiles %}
+
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="{% static 'archivefind/style.css' %}" />
+</head>
+
+<body>
+{% if blog_name %}
+    <h1>{{ blog_name }}</h1>
+    <div class=centralBlockFloat><div class=centralBlock>
+    
+    <div class=colBlock>
+        {% for post in posts_list %}
+            <a href="{{ post.url }}"><img class=thumbBlock src="{{ post.thumb }}"/></a>
+        {% endfor %}
+    </div>
+
+    </div></div>
+{% else %}
+    <p>Unable to find specified blog.</p>
+{% endif %}
+</body>
+</html>

@@ -1,0 +1,46 @@
+import pytumblr
+from tumblr_keys import *
+
+# Authenticate
+client = pytumblr.TumblrRestClient(
+    consumer_key,
+    consumer_secret,
+    token_key, 
+    token_secret
+    )
+
+class TumblrBlogManager:
+
+    postMarker = 0
+
+    def __init__(self, blogName): 
+        self.blogName = blogName
+        # When starting, to ensure this is a valid non-empty blog, i
+        # attempt to get posts. Return: dict
+        post = client.posts(blogName, limit=1)
+        # TODO: Make more detailed error handling; meta tag provides error details. 
+        if 'meta' in post: 
+            # Raise exception
+            raise Exception('Blog not found')
+        else:
+            # Store blog information
+            self.blogInfo = post['blog']
+            self.totalPosts = post['total_posts']
+
+    def getTitle(self):
+        return self.blogInfo['title']
+
+    def getMorePosts(self, numberToRetrieve):
+        if postMarker >= self.totalPosts:
+
+        posts = client.posts(blogName, limit=numberToRetrieve, offset=postMarker)
+        # We will assume at this point the blog exists
+        postMarker += len(posts['posts'])
+        return posts['posts']
+
+    def getRecentPosts(self, numberToRetrieve): 
+        posts = client.posts(blogName, limit=numberToRetrieve, offset=postMarker)
+        return posts['posts']
+
+    def resetPostPosition(self):
+        self.postMarker = 0
