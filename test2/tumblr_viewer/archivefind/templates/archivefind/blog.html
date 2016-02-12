@@ -2,19 +2,36 @@
 
 <html>
 <head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="{% static 'archivefind/style.css' %}" />
+<script src="{% static 'archivefind/scripts/main.js' %}"></script>
+
 </head>
 
 <body>
 {% if blog_name %}
-    <h1>{{ blog_name }}</h1>
+    <div class=headerBlock>
+        <h1>{{ blog_name }}</h1>
+        <form action="" method="post" id="tag-search-form">
+            {% csrf_token %}
+            <input type="text" name="tags" id="tagsFilter"/>
+            <input type="submit" value="Filter" />
+        </form>
+    </div>
+
     <div class=centralBlockFloat><div class=centralBlock>
     
-    <div class=colBlock>
+    <div class=colBlock id='content't>
         {% for post in posts_list %}
             <a href="{{ post.url }}"><img class=thumbBlock src="{{ post.thumb }}"/></a>
         {% endfor %}
     </div>
+    
+    <form action="" method="post" id="load-more-form">
+        {% csrf_token %}
+        <input type="submit" value="Load More" />
+    </form>
+    <!-- <div class=moreButton>Load More</div> -->
 
     </div></div>
 {% else %}
