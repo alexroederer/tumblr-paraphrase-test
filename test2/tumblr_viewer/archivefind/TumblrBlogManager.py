@@ -32,7 +32,7 @@ class TumblrBlogManager:
 
     # Checks if there are more unseen posts
     def isMorePosts(self):
-        return postMarker < self.totalPosts
+        return self.postMarker < self.totalPosts
 
     # Retrieves next posts available; keeps track of what's been seen already
     def getMorePosts(self, numberToRetrieve):

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.http import HttpResponse
 
 import pytumblr
@@ -14,9 +14,10 @@ def index(request):
 
 def blog(request, blog_name):
     #Renders a preliminary view for a blog of interest. 
+    print "BLOG VIEW"
     try:
         manager = TumblrBlogManager(blog_name)
-        posts = manager.getRecentPosts(16)
+        posts = manager.getMorePosts(16)
         parsed_posts = []
         for post in posts:
             thumb, url = manager.processPost(post)
@@ -28,7 +29,31 @@ def blog(request, blog_name):
             'blog_name': blog_name, 
             'posts_list': parsed_posts,
         }
-    except Exception:
+    except Exception as e:
+        print "EXCEPTION:" 
+        print e
         blog_name = None 
         context = {}
     return render(request, 'archivefind/blog.html', context)
+
+def blog_content(request, blog_name): 
+    try:
+        manager = TumblrBlogManager(blog_name)
+        posts = manager.getMorePosts(8)
+        parsed_posts = []
+        for post in posts:
+            thumb, url = manager.processPost(post)
+            parsed_posts.append({
+                'thumb': thumb, 
+                'url': url, 
+                })
+        context = {
+            'blog_name': blog_name, 
+            'posts_list': parsed_posts,
+        }
+    except Exception as e:
+        print "EXCEPTION:" 
+        print e
+        blog_name = None 
+        context = {}
+    return render_to_response('archivefind/blog-content.html', context)
