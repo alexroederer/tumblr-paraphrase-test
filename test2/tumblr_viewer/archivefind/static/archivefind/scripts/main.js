@@ -24,7 +24,7 @@ $(function() {
             success : function(data) {
                 console.log("Success!")
                 console.log(data)
-                $('#content').prepend(data); 
+                $('#content').append(data); 
                 console.log("Data prepended?")
             }, 
 

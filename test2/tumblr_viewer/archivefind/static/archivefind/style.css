@@ -1,5 +1,6 @@
 div.headerBlock {
     width: 500px;
+    height: 20%
     margin: 0;
     margin-right: auto; 
     margin-left: auto;
@@ -7,18 +8,20 @@ div.headerBlock {
     text-align: center;
 }
 
-div.centralBlockFloat {
-    height: 90%;
+/*div.centralBlockFloat {
+    background: teal;
+    height: 80%;
     position: relative;
-}
+}*/
 div.centralBlock {
-    /*    background: coral; */
+/*        background: coral; */
     margin: 0;
     position: absolute;
-    top: 50%;
+/*    top: 50%; */
     left: 50%;
     margin-right: -50%;
-    transform: translate(-50%, -50%) 
+/*    transform: translate(-50%, -50%) */
+    transform: translate(-50%, 0%) 
 }
 div.colBlock {
     /*    border: 1px solid black; */

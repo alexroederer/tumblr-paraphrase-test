@@ -1,2 +1,6 @@
 tumblr_keys.py*
 *.pyc
+*/*.pyc
+*/*/*.pyc
+*/*/*/*.pyc
+

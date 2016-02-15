@@ -29,6 +29,10 @@ def blog(request, blog_name):
             'blog_name': blog_name, 
             'posts_list': parsed_posts,
         }
+        #Record object in session: this may be dangerous, 
+        #because if the session in the object contains any information 
+        #about the secret keys, that could lead to attacks
+
     except Exception as e:
         print "EXCEPTION:" 
         print e
@@ -39,7 +43,7 @@ def blog(request, blog_name):
 def blog_content(request, blog_name): 
     try:
         manager = TumblrBlogManager(blog_name)
-        posts = manager.getMorePosts(8)
+        posts = manager.getMorePosts(16)
         parsed_posts = []
         for post in posts:
             thumb, url = manager.processPost(post)
