@@ -11,10 +11,10 @@ client = pytumblr.TumblrRestClient(
 
 class TumblrBlogManager:
 
-    postMarker = 0
-
-    def __init__(self, blogName): 
+    def __init__(self, blogName, postMarker=0): 
         self.blogName = blogName
+        self.postMarker = postMarker
+        self.tagsList = []
         # When starting, to ensure this is a valid non-empty blog, i
         # attempt to get posts. Return: dict
         post = client.posts(blogName, limit=1)
@@ -30,17 +30,29 @@ class TumblrBlogManager:
     def getTitle(self):
         return self.blogInfo['title']
 
+    # Sets a filter for posts; only posts with these tags will be returned
+    def setTagFilter(self, tagsList):
+        self.tagsList = tagsList
+
+    def clearTagFilter(self):
+        self.tagsList = []
+
     # Checks if there are more unseen posts
     def isMorePosts(self):
         return self.postMarker < self.totalPosts
 
     # Retrieves next posts available; keeps track of what's been seen already
+    # Only returns posts that conform to current filters
     def getMorePosts(self, numberToRetrieve):
         # No more posts available
         if not self.isMorePosts(): 
             return []
+        # Attempt to get more posts
+
+        # NOTE We need to take care of the case that the number to retrieve 
+        # is larger than the allowed retrieval size (20). 
+
         posts = client.posts(self.blogName, limit=numberToRetrieve, offset=self.postMarker)
-        # We will assume at this point the blog exists
         self.postMarker += len(posts['posts'])
         return posts['posts']
 

@@ -18,7 +18,7 @@ $(function() {
         $.ajax({
             url : "blog_content/",  // the endpoint
             type : "POST",  // http method
-            data : {},  // can send some json along with
+            data : {},  // can send some json along with request
             
             // successful response
             success : function(data) {
@@ -38,6 +38,19 @@ $(function() {
     function search_posts() {
         console.log("search posts is working")
         console.log($('#tagsFilter').val())
+        $.ajax({
+            url : "search_posts/", // the endpoint
+            type : "POST", 
+            data: { tags: $('#tagsFilter').val() }, 
+
+            //successful response
+            success : function(data) {
+                console.log("Success!")
+                console.log(data)
+                $('#content').empty().append(data);
+                console.log("Search data added")
+            }, 
+        }); 
     }
 
     // This function gets cookie with a given name
