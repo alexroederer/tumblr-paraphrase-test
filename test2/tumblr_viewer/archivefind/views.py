@@ -5,7 +5,7 @@ import pytumblr
 from tumblr_keys import *
 from TumblrBlogManager import TumblrBlogManager
 
-NUM_POSTS_LOAD = 16
+NUM_POSTS_LOAD = 16 
 
 # Create your views here.
 def createPostsList(manager, posts):

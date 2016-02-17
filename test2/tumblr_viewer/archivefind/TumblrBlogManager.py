@@ -11,6 +11,8 @@ client = pytumblr.TumblrRestClient(
 
 class TumblrBlogManager:
 
+    MAX_LIMIT_RETRIEVE = 16
+
     def __init__(self, blogName, postMarker=0): 
         self.blogName = blogName
         self.postMarker = postMarker
@@ -44,17 +46,35 @@ class TumblrBlogManager:
     # Retrieves next posts available; keeps track of what's been seen already
     # Only returns posts that conform to current filters
     def getMorePosts(self, numberToRetrieve):
-        # No more posts available
-        if not self.isMorePosts(): 
-            return []
-        # Attempt to get more posts
+        postsToReturn = []
+        numberRetrieved = 0
 
-        # NOTE We need to take care of the case that the number to retrieve 
-        # is larger than the allowed retrieval size (20). 
+        #howFarBack = 
 
-        posts = client.posts(self.blogName, limit=numberToRetrieve, offset=self.postMarker)
-        self.postMarker += len(posts['posts'])
-        return posts['posts']
+        while self.isMorePosts() and numberRetrieved < numberToRetrieve: 
+            # Attempt to get more posts
+            # API retrieval is limited to a number of posts at a time
+            # If we request fewer, though, we only want to return that many
+            retrieveLimit = min(self.MAX_LIMIT_RETRIEVE, numberToRetrieve-numberRetrieved)
+            posts = client.posts(self.blogName, limit=retrieveLimit, offset=self.postMarker)
+            # Keep track of the global post marker
+            self.postMarker += len(posts['posts'])
+            # Keep track of how many posts that conform to filter limits we've 
+            # successfully found
+            goodPosts = []
+            for post in posts['posts']: 
+                if len(self.tagsList) != 0: 
+                    # Check to see if this post has all the tags we want
+                    if len(set(self.tagsList) & set(post['tags'])) == len(self.tagsList): 
+                        goodPosts.append(post)
+                else:
+                    goodPosts.append(post)
+
+            print len(goodPosts)
+            numberRetrieved += len(goodPosts)
+            postsToReturn.extend(goodPosts)
+
+        return postsToReturn
 
     def getRecentPosts(self, numberToRetrieve): 
         posts = client.posts(self.blogName, limit=numberToRetrieve, offset=self.postMarker)
